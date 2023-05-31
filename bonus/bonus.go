@@ -71,7 +71,11 @@ type Aptitude struct {
 13	kouei no toki aite rider(cate[])
 */
 // func (変数名 構造体) 関数名(変数名 型) 型
-func (zenei Aptitude) zeneiRiderSkill(kouei Aptitude,eneZen Aptitude,eneKou Aptitude) SkillBonus {
+func (zenei Aptitude) ZeneiRiderSkill(
+	kouei Aptitude,
+	eneZen Aptitude,
+	eneKou Aptitude,
+) SkillBonus {
 	var zeneiSkillType int = zenei.SkillType
 	var bonus SkillBonus = *NewSkillBonus()
 	
@@ -100,9 +104,58 @@ func (zenei Aptitude) zeneiRiderSkill(kouei Aptitude,eneZen Aptitude,eneKou Apti
 	}else if (zeneiSkillType == 12 && (contains(eneZen.Category,zenei.SkillConditions) || contains(eneKou.Category,zenei.SkillConditions))){
 		bonus = zenei.SkillBonus
 	}
+	return bonus
+}
 
-
+func (kouei Aptitude) koueiRiderSkill(
+	zenei Aptitude,
+	eneZen Aptitude,
+	eneKou Aptitude,
+) SkillBonus {
+	var koueiSkillType int = kouei.SkillType
+	var bonus SkillBonus = *NewSkillBonus()
 	
+	// 無条件 エイの場合
+	if (koueiSkillType == 0 || koueiSkillType == 2) {
+		bonus = kouei.SkillBonus
+	// エイ時、仲間と属性が一緒の場合
+	}else if (koueiSkillType == 4 && 
+		kouei.Attribute == zenei.Attribute){
+
+		bonus = kouei.SkillBonus
+	// 仲間と属性が一緒の場合
+	}else if (koueiSkillType == 5 && 
+		kouei.Attribute == zenei.Attribute){
+
+		bonus = kouei.SkillBonus
+	// エイ時、仲間が○○の場合
+	}else if (koueiSkillType == 7 && contains(
+		zenei.Category,kouei.SkillConditions)){
+
+		bonus = kouei.SkillBonus
+	// 相手と属性が同じ場合
+	}else if (koueiSkillType == 8 && 
+		kouei.Attribute == eneZen.Attribute){
+
+		bonus = kouei.SkillBonus
+	// エイ時、相手と属性が同じ場合
+	}else if (koueiSkillType == 10 && 
+		kouei.Attribute == eneZen.Attribute){
+
+		bonus = kouei.SkillBonus
+	// 相手が○○の場合
+	}else if (koueiSkillType == 11 && (
+		contains(eneZen.Category,kouei.SkillConditions) || 
+		contains(eneKou.Category,kouei.SkillConditions))){
+
+		bonus = kouei.SkillBonus
+	// ゼンエイジ相手に○○がいる場合
+	}else if (koueiSkillType == 13 && (
+		contains(eneZen.Category,kouei.SkillConditions) || 
+		contains(eneKou.Category,kouei.SkillConditions))){
+
+		bonus = kouei.SkillBonus
+	}
 	return bonus
 }
 

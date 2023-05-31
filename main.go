@@ -7,6 +7,9 @@ func main(){
 	var zenei bonus.Aptitude
 	var kouei bonus.Aptitude
 
+	var enezenei bonus.Aptitude
+	var enekouei bonus.Aptitude
+
 	var teamAttackPoint int = 0
 
 
@@ -66,6 +69,7 @@ func main(){
 	if (zenei.AttackTeki + kouei.AttackTeki == 6 && 
 		zenei.AttackTeki == kouei.AttackTeki) {
 		fmt.Println("攻撃ベストパートナー")
+		
 	}
 	if (zenei.DefenceTeki + kouei.DefenceTeki == 6 &&
 		zenei.DefenceTeki == kouei.DefenceTeki) {
@@ -79,6 +83,7 @@ func main(){
 		zenei.FinishingAttackTeki == kouei.FinishingAttackTeki) {
 		fmt.Println("必殺ベストパートナー")
 	}
-	fmt.Println(team)
+	fmt.Println(team.Attack)
+	fmt.Println(zenei.ZeneiRiderSkill(kouei,enezenei,enekouei))
 	
 }
