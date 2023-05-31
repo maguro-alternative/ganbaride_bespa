@@ -35,6 +35,14 @@ func NewSkillBonus() *SkillBonus {
 	}
 }
 
+// チームボーナス
+type TeamBonus struct {
+	Attack				int
+	Defence 			int
+	HitPoint 			int
+	FinishingAttack		int
+}
+
 // ライダーステータス
 type Aptitude struct {
 	Name				string
@@ -107,7 +115,7 @@ func (zenei Aptitude) ZeneiRiderSkill(
 	return bonus
 }
 
-func (kouei Aptitude) koueiRiderSkill(
+func (kouei Aptitude) KoueiRiderSkill(
 	zenei Aptitude,
 	eneZen Aptitude,
 	eneKou Aptitude,
@@ -115,10 +123,10 @@ func (kouei Aptitude) koueiRiderSkill(
 	var koueiSkillType int = kouei.SkillType
 	var bonus SkillBonus = *NewSkillBonus()
 	
-	// 無条件 エイの場合
+	// 無条件 コウエイの場合
 	if (koueiSkillType == 0 || koueiSkillType == 2) {
 		bonus = kouei.SkillBonus
-	// エイ時、仲間と属性が一緒の場合
+	// コウエイ時、仲間と属性が一緒の場合
 	}else if (koueiSkillType == 4 && 
 		kouei.Attribute == zenei.Attribute){
 
@@ -128,7 +136,7 @@ func (kouei Aptitude) koueiRiderSkill(
 		kouei.Attribute == zenei.Attribute){
 
 		bonus = kouei.SkillBonus
-	// エイ時、仲間が○○の場合
+	// コウエイ時、仲間が○○の場合
 	}else if (koueiSkillType == 7 && contains(
 		zenei.Category,kouei.SkillConditions)){
 
@@ -138,7 +146,7 @@ func (kouei Aptitude) koueiRiderSkill(
 		kouei.Attribute == eneZen.Attribute){
 
 		bonus = kouei.SkillBonus
-	// エイ時、相手と属性が同じ場合
+	// コウエイ時、相手と属性が同じ場合
 	}else if (koueiSkillType == 10 && 
 		kouei.Attribute == eneZen.Attribute){
 
@@ -149,7 +157,7 @@ func (kouei Aptitude) koueiRiderSkill(
 		contains(eneKou.Category,kouei.SkillConditions))){
 
 		bonus = kouei.SkillBonus
-	// ゼンエイジ相手に○○がいる場合
+	// コウエイ時相手に○○がいる場合
 	}else if (koueiSkillType == 13 && (
 		contains(eneZen.Category,kouei.SkillConditions) || 
 		contains(eneKou.Category,kouei.SkillConditions))){
@@ -168,6 +176,13 @@ type RiderTeam struct {
 	HitPoint 		int
 	FinishingAttack int
 	AttackPoint		int
+}
+
+type RiderTeamTekisei struct {
+	AttackTeki 			int
+	DefenceTeki 		int
+	HitPointTeki 		int
+	FinishingAttackTeki int
 }
 
 func main(){
@@ -259,4 +274,16 @@ func contains(elems []string, v string) bool {
         }
     }
     return false
+}
+
+// 配列に指定したものが含まれていた場合、場所を返す
+func ContainsPoint(elems []int, v int) int {
+	var i int = 0
+    for _, s := range elems {
+        if v == s {
+            return i
+        }
+		i += 1
+    }
+    return -1
 }
